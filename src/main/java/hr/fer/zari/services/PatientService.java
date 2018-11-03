@@ -22,58 +22,43 @@ public class PatientService extends BaseService{
         super(service);
     }
 
-    public Call<List<String>> getPatientsIdsAsync() {
-        return service.getPatients();
-    }
-
     public List<String> getPatientsIds() throws IOException, OrthancException {
-        return checkResponse(getPatientsIdsAsync());
-    }
-
-    public Call<Patient> getPatientAsync(String patientId) {
-        return service.getPatient(patientId);
+        Call<List<String>> getPatientsIds = service.getPatients();
+        return checkResponse(getPatientsIds);
     }
 
     public Patient getPatient(String patientId) throws IOException, OrthancException {
-        return checkResponse(getPatientAsync(patientId));
+        Call<Patient> patientCall = service.getPatient(patientId);
+        return checkResponse(patientCall);
     }
 
     public List<Patient> getPatients() throws IOException, OrthancException {
         List<String> patientsIds = getPatientsIds();
-        List<Patient> patients = new ArrayList<Patient>();
+        List<Patient> patients = new ArrayList<>();
         for (String id : patientsIds) {
             patients.add(getPatient(id));
         }
         return patients;
     }
 
-    public Call<Map<String, Header>> getPatientModuleAsync(String patientId) {
-        return service.getPatientModule(patientId);
-    }
-
-    public Map<String, Header> getPatientModule(String patientId) throws IOException, OrthancException {
-        return checkResponse(getPatientModuleAsync(patientId));
-    }
-
-    public Call<Map<String, Header>> getPatientSharedTagsAsync(String patientId) {
-        return service.getPatientSharedTags(patientId);
-    }
-
-    public Map<String, Header> getPatientSharedTags(String patientId) throws IOException, OrthancException {
-        return checkResponse(getPatientSharedTagsAsync(patientId));
-    }
-
-    public Call<PatientStatistics> getPatientStatisticsAsync(String patientId) {
-        return service.getPatientStatistics(patientId);
-    }
-
-    public PatientStatistics getPatientStatistics(String patientId) throws IOException, OrthancException {
-        return checkResponse(getPatientStatisticsAsync(patientId));
-    }
-
     public void downloadPatientArchive(String patientId, String filePath) throws IOException, OrthancException {
         Call<ResponseBody> call = service.getPatientZipData(patientId);
         ResponseBody response = checkResponse(call);
         writeResponseBodyToDisk(response, filePath);
+    }
+
+    public Map<String, Header> getPatientModule(String patientId) throws IOException, OrthancException {
+        Call<Map<String, Header>> call = service.getPatientModule(patientId);
+        return checkResponse(call);
+    }
+
+    public Map<String, Header> getPatientSharedTags(String patientId) throws IOException, OrthancException {
+        Call<Map<String, Header>> call = service.getPatientSharedTags(patientId);
+        return checkResponse(call);
+    }
+
+    public PatientStatistics getPatientStatistics(String patientId) throws IOException, OrthancException {
+        Call<PatientStatistics> call = service.getPatientStatistics(patientId);
+        return checkResponse(call);
     }
 }

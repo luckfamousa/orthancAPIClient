@@ -14,7 +14,7 @@ public class TestPrint {
     private static final String USERNAME = "";
     private static final String PASSWORD = "";
 
-    private static RestClient client = new RestClient(API_BASE_URL, USERNAME, PASSWORD, false);
+    private static final RestClient client = new RestClient(API_BASE_URL, USERNAME, PASSWORD, false);
 
     public static void main(String[] args) {
         String patientId = "da39a3ee-5e6b4b0d-3255bfef-95601890-afd80709";
@@ -121,7 +121,7 @@ public class TestPrint {
 
     private static void printListOfInstancesForSeries(String seriesId) {
         try {
-            List<Instance> instances = client.getInstanceService().getInstancesForSeries(seriesId);
+            List<Instance> instances = client.getInstanceService().getInstacesForSeries(seriesId);
             for (Instance instance : instances) {
                 System.out.println(instance.toString());
             }

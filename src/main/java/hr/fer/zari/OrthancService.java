@@ -9,6 +9,8 @@ import retrofit2.http.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import okhttp3.RequestBody;
 
 /**
  * Created by eugen on 01/12/2016.
@@ -208,11 +210,41 @@ public interface OrthancService {
     @GET("instances/{id}/tags")
     Call<Map<String, Header>> getInstanceTags(@Path("id") String instanceId);
 
+    /* QUERIES */
+    @GET("queries")
+    Call<List<OrthancId>> getQueries();
+    
+    @GET("queries/{id}")
+    Call<List<String>> getQuery(@Path("id") OrthancId queryId);
+    
+    @GET("/queries/{id}/answers")
+    Call<List<Integer>> getQueryAnswers(@Path("id") OrthancId queryId);
+    
+    @GET("/queries/{id}/answers/{index}/content")
+    Call<Map<DcmTag, DcmAttribute>> getQueryAnswer(@Path("id") OrthancId queryId, @Path("index") int index);
+    
+    @GET("/queries/{id}/answers/{index}/content?simplify")
+    Call<Map<String, String>> getQuerySimplifiedAnswer(@Path("id") OrthancId queryId, @Path("index") int index);
+    
+    @Headers("application/x-www-form-urlencoded; charset=UTF-8")
+    @POST("/queries/{id}/answers/{index}/retrieve")
+    Call<Object> retrieveAnswer(@Path("id") OrthancId queryId, @Path("index") int index, @Body RequestBody aet);
+    
+    
     /* MODALITIES */
     @GET("modalities")
     Call<List<String>> getModalities();
 
-
+    //@Headers("Content-Type: application/x-www-form-urlencoded; charset=UTF-8")
+    @Headers("Content-Type: application/json; charset=UTF-8")
+    @POST("modalities/{dicom}/query")
+    Call<hr.fer.zari.models.qr.Query> queryModality(@Path("dicom") String modality, @Body RequestBody cfind);
+    
+    @Headers("Content-Type: application/json; charset=UTF-8")
+    @POST("modalities/{dicom}/move")
+    Call<hr.fer.zari.models.qr.Query> moveModality(@Path("dicom") String modality, @Body RequestBody cmove);
+    
+    
     /* not implemented */
     /* Protection against recycling: "0" means unprotected, "1" protected */
 //    @GET("patients/{id}/protected")

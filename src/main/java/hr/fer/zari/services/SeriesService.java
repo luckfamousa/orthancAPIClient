@@ -5,7 +5,6 @@ import hr.fer.zari.OrthancService;
 import hr.fer.zari.models.Header;
 import hr.fer.zari.models.Patient;
 import hr.fer.zari.models.Series;
-import hr.fer.zari.models.Statistics.PatientStatistics;
 import hr.fer.zari.models.Statistics.SeriesStatistics;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -23,68 +22,44 @@ public class SeriesService extends BaseService {
         super(service);
     }
 
-    public Call<List<Series>> getSeriesForStudyAsync(String studyId) {
-        return service.getSeriesForStudy(studyId);
-    }
-
     public List<Series> getSeriesForStudy(String studyId) throws IOException, OrthancException {
-        return checkResponse(getSeriesForStudyAsync(studyId));
-    }
-
-    public Call<List<String>> getSeriesAsync() {
-        return service.getSeries();
+        Call<List<Series>> call = service.getSeriesForStudy(studyId);
+        return checkResponse(call);
     }
 
     public List<String> getSeries() throws IOException, OrthancException {
-        return checkResponse(getSeriesAsync());
-    }
-
-    public Call<Series> getSeriesAsync(String seriesId) {
-        return service.getSeries(seriesId);
+        Call<List<String>> call = service.getSeries();
+        return checkResponse(call);
     }
 
     public Series getSeries(String seriesId) throws IOException, OrthancException {
-        return checkResponse(getSeriesAsync(seriesId));
-    }
-
-    public Call<List<Series>> getSeriesForPatientAsync(String patientId) {
-        return service.getPatientSeries(patientId);
+        Call<Series> call = service.getSeries(seriesId);
+        return checkResponse(call);
     }
 
     public List<Series> getSeriesForPatient(String patientId) throws IOException, OrthancException {
-        return checkResponse(getSeriesForPatientAsync(patientId));
-    }
-
-    public Call<Map<String, Header>> getSeriesModuleAsync(String seriesId) {
-        return service.getSeriesModule(seriesId);
+        Call<List<Series>> call = service.getPatientSeries(patientId);
+        return checkResponse(call);
     }
 
     public Map<String, Header> getSeriesModule(String seriesId) throws IOException, OrthancException {
-        return checkResponse(getSeriesModuleAsync(seriesId));
-    }
-
-    public Call<Patient> getSeriesPatientAsync(String seriesId) {
-        return service.getSeriesPatient(seriesId);
+        Call<Map<String, Header>> call = service.getSeriesModule(seriesId);
+        return checkResponse(call);
     }
 
     public Patient getSeriesPatient(String seriesId) throws IOException, OrthancException {
-        return checkResponse(getSeriesPatientAsync(seriesId));
-    }
-
-    public Call<Map<String, Header>> getSeriesSharedTagsAsync(String seriesId) {
-        return service.getSeriesSharedTags(seriesId);
+        Call<Patient> call = service.getSeriesPatient(seriesId);
+        return checkResponse(call);
     }
 
     public Map<String, Header> getSeriesSharedTags(String seriesId) throws IOException, OrthancException {
-        return checkResponse(getSeriesSharedTagsAsync(seriesId));
-    }
-
-    public Call<SeriesStatistics> getSeriesStatisticsAsync(String seriesId) {
-        return service.getSeriesStatistics(seriesId);
+        Call<Map<String, Header>> call = service.getSeriesSharedTags(seriesId);
+        return checkResponse(call);
     }
 
     public SeriesStatistics getSeriesStatistics(String seriesId) throws IOException, OrthancException {
-        return checkResponse(getSeriesStatisticsAsync(seriesId));
+        Call<SeriesStatistics> call = service.getSeriesStatistics(seriesId);
+        return checkResponse(call);
     }
 
     public void downloadSeriesArchive(String seriesId, String filePath) throws IOException, OrthancException {

@@ -6,6 +6,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 import java.io.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by eugen on 13/05/2017.
@@ -22,8 +23,16 @@ public abstract class BaseService {
         retrofit2.Response response = call.execute();
         if (response.isSuccessful()) {
             return (T) response.body();
-        } else {
-            throw new OrthancException("code = " + response.code());
+        } else {                 
+          
+            String body = "";
+            ResponseBody reb = response.errorBody();
+            if (reb != null) {
+              BufferedReader r = new BufferedReader(reb.charStream());              
+              body = r.lines().collect(Collectors.joining("\n"));
+            }
+          
+            throw new OrthancException(String.format("%s (%s)\n%s", response.message(), response.code(), response.toString()));
         }
     }
 
