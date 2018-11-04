@@ -1,3 +1,4 @@
+import hr.fer.zari.models.id.*;
 import hr.fer.zari.OrthancException;
 import hr.fer.zari.RestClient;
 import hr.fer.zari.models.*;
@@ -17,10 +18,10 @@ public class TestPrint {
     private static final RestClient client = new RestClient(API_BASE_URL, USERNAME, PASSWORD, false);
 
     public static void main(String[] args) {
-        String patientId = "da39a3ee-5e6b4b0d-3255bfef-95601890-afd80709";
-        String studyId = "27f7126f-4f66fb14-03f4081b-f9341db2-53925988";
-        String seriesId = "a69a10d7-068c5263-8aab53fe-de7af5f2-373a74bd";
-        String instancesId = "38b2a146-1a11768b-4b140230-21f7de01-19873143";
+        PatientId patientId = new PatientId("da39a3ee-5e6b4b0d-3255bfef-95601890-afd80709");
+        StudyId studyId = new StudyId("27f7126f-4f66fb14-03f4081b-f9341db2-53925988");
+        SeriesId seriesId = new SeriesId("a69a10d7-068c5263-8aab53fe-de7af5f2-373a74bd");
+        InstanceId instancesId = new InstanceId("38b2a146-1a11768b-4b140230-21f7de01-19873143");
 
         printSystemInfo();
 
@@ -73,7 +74,7 @@ public class TestPrint {
         }
     }
 
-    private static void downloadInstance(String instancesId) {
+    private static void downloadInstance(InstanceId instancesId) {
         try {
             client.getInstanceService().downloadInstanceDicom(instancesId, "");
         } catch (IOException e) {
@@ -83,7 +84,7 @@ public class TestPrint {
         }
     }
 
-    private static void downloadPatientArchive(String patientId) {
+    private static void downloadPatientArchive(PatientId patientId) {
         try {
             client.getPatientService().downloadPatientArchive(patientId, "" + patientId + ".zip");
         } catch (IOException e) {
@@ -93,7 +94,7 @@ public class TestPrint {
         }
     }
 
-    private static void printListOfStudies(String patientId) {
+    private static void printListOfStudies(PatientId patientId) {
         try {
             List<Study> studies = client.getStudyService().getStudiesForPatient(patientId);
             for (Study study : studies) {
@@ -106,7 +107,7 @@ public class TestPrint {
         }
     }
     
-    private static void printListOfSeries(String studyId) {
+    private static void printListOfSeries(StudyId studyId) {
         try {
             List<Series> series = client.getSeriesService().getSeriesForStudy(studyId);
             for (Series serie : series) {
@@ -119,7 +120,7 @@ public class TestPrint {
         }
     }
 
-    private static void printListOfInstancesForSeries(String seriesId) {
+    private static void printListOfInstancesForSeries(OrthancId seriesId) {
         try {
             List<Instance> instances = client.getInstanceService().getInstacesForSeries(seriesId);
             for (Instance instance : instances) {

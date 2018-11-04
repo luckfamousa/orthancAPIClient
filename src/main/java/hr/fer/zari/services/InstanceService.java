@@ -3,6 +3,7 @@ package hr.fer.zari.services;
 import hr.fer.zari.OrthancException;
 import hr.fer.zari.OrthancService;
 import hr.fer.zari.models.Instance;
+import hr.fer.zari.models.id.*;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 
@@ -18,7 +19,7 @@ public class InstanceService extends BaseService {
         super(service);
     }
 
-    public List<Instance> getInstacesForSeries(String seriesId) throws IOException, OrthancException {
+    public List<Instance> getInstacesForSeries(OrthancId seriesId) throws IOException, OrthancException {
         Call<List<Instance>> call = service.getInstancesForSeries(seriesId);
         return checkResponse(call);
     }
@@ -28,23 +29,23 @@ public class InstanceService extends BaseService {
         return checkResponse(call);
     }
 
-    public Instance getInstance(String instanceId) throws IOException, OrthancException {
+    public Instance getInstance(InstanceId instanceId) throws IOException, OrthancException {
         Call<Instance> call = service.getInstance(instanceId);
         return checkResponse(call);
     }
 
-    public void downloadInstanceDicom(String id, String filePath) throws IOException, OrthancException {
-        Call<ResponseBody> call = service.getInstanceDicomData(id);
+    public void downloadInstanceDicom(InstanceId instanceId, String filePath) throws IOException, OrthancException {
+        Call<ResponseBody> call = service.getInstanceDicomData(instanceId);
         ResponseBody body = checkResponse(call);
         writeResponseBodyToDisk(body, filePath);
     }
 
-    public List<Instance> getInstancesForPatient(String patientId) throws IOException, OrthancException {
+    public List<Instance> getInstancesForPatient(PatientId patientId) throws IOException, OrthancException {
         Call<List<Instance>> call = service.getPatientInstances(patientId);
         return checkResponse(call);
     }
 
-    public List<String> getInstanceContent(String instanceId) throws IOException, OrthancException {
+    public List<String> getInstanceContent(InstanceId instanceId) throws IOException, OrthancException {
         Call<List<String>> call = service.getInstanceContent(instanceId);
         return checkResponse(call);
     }

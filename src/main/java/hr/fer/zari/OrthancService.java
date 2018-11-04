@@ -1,5 +1,6 @@
 package hr.fer.zari;
 
+import hr.fer.zari.models.id.OrthancId;
 import hr.fer.zari.models.*;
 import hr.fer.zari.models.Header;
 import hr.fer.zari.models.Statistics.*;
@@ -27,33 +28,33 @@ public interface OrthancService {
     @GET("patients")
     Call<List<String>> getPatients();
     @GET("patients/{id}")
-    Call<Patient> getPatient(@Path("id") String patientId);
+    Call<Patient> getPatient(@Path("id") OrthancId patientId);
     /* Create ZIP */
     @Streaming
     @GET("patients/{id}/archive")
-    Call<ResponseBody> getPatientZipData(@Path("id") String patientId);
+    Call<ResponseBody> getPatientZipData(@Path("id") OrthancId patientId);
     /* Retrieve all the instances of this patient in a single REST call */
     @GET("patients/{id}/instances")
-    Call<List<Instance>> getPatientInstances(@Path("id") String patientId);
+    Call<List<Instance>> getPatientInstances(@Path("id") OrthancId patientId);
     /* Create a ZIP archive for media storage with DICOMDIR */
     @Streaming
     @GET("patients/{id}/media")
-    Call<ResponseBody> getPatientMedia(@Path("id") String patientId);
+    Call<ResponseBody> getPatientMedia(@Path("id") OrthancId patientId);
     /* */
     @GET("patients/{id}/module")
-    Call<Map<String, Header>> getPatientModule(@Path("id") String patientId);
+    Call<Map<String, Header>> getPatientModule(@Path("id") OrthancId patientId);
     /* Retrieve all the series of this patient in a single REST call */
     @GET("patients/{id}/series")
-    Call<List<Series>> getPatientSeries(@Path("id") String patientId);
+    Call<List<Series>> getPatientSeries(@Path("id") OrthancId patientId);
     /* "?simplify" argument to simplify output */
     @GET("patients/{id}/shared-tags")
-    Call<Map<String, Header>> getPatientSharedTags(@Path("id") String patientId);
+    Call<Map<String, Header>> getPatientSharedTags(@Path("id") OrthancId patientId);
     /* */
     @GET("patients/{id}/statistics")
-    Call<PatientStatistics> getPatientStatistics(@Path("id") String patientId);
+    Call<PatientStatistics> getPatientStatistics(@Path("id") OrthancId patientId);
     /* Retrieve all the studies of this patient in a single REST call */
     @GET("patients/{id}/studies")
-    Call<List<Study>> getStudiesForPatient(@Path("id") String patientId);
+    Call<List<Study>> getStudiesForPatient(@Path("id") OrthancId patientId);
 
     /* PLUGINS */
     /* Get the list of all the registered plugins */
@@ -64,151 +65,151 @@ public interface OrthancService {
     @GET("series")
     Call<List<String>> getSeries();
     @GET("series/{id}")
-    Call<Series> getSeries(@Path("id") String seriesId);
+    Call<Series> getSeries(@Path("id") OrthancId seriesId);
     /* Create a ZIP archive for media storage with DICOMDIR */
     @Streaming
     @GET("series/{id}/archive")
-    Call<ResponseBody> getSeriesZipData(@Path("id") String seriesId);
+    Call<ResponseBody> getSeriesZipData(@Path("id") OrthancId seriesId);
     /* Retrieve all the instances of this series in a single REST call */
     @GET("series/{id}/instances")
-    Call<List<Instance>> getInstancesForSeries(@Path("id") String seriesId);
+    Call<List<Instance>> getInstancesForSeries(@Path("id") OrthancId seriesId);
     /* Create archives for media storage with DICOMDIR */
     @GET("series/{id}/media")
-    Call<List<Instance>> getSeriesMedia(@Path("id") String seriesId);
+    Call<List<Instance>> getSeriesMedia(@Path("id") OrthancId seriesId);
     /* "?simplify" argument to simplify output */
     @GET("series/{id}/module")
-    Call<Map<String, Header>> getSeriesModule(@Path("id") String seriesId);
+    Call<Map<String, Header>> getSeriesModule(@Path("id") OrthancId seriesId);
     /* Retrieve the parent study of this series */
     @GET("series/{id}/patient")
-    Call<Patient> getSeriesPatient(@Path("id") String seriesId);
+    Call<Patient> getSeriesPatient(@Path("id") OrthancId seriesId);
     /* "?simplify" argument to simplify output */
     @GET("series/{id}/shared-tags")
-    Call<Map<String, Header>> getSeriesSharedTags(@Path("id") String seriesId);
+    Call<Map<String, Header>> getSeriesSharedTags(@Path("id") OrthancId seriesId);
     /* */
     @GET("series/{id}/statistics")
-    Call<SeriesStatistics> getSeriesStatistics(@Path("id") String seriesId);
+    Call<SeriesStatistics> getSeriesStatistics(@Path("id") OrthancId seriesId);
 
     /* STUDIES */
     @GET("studies")
     Call<List<String>> getStudies();
     @GET("studies/{id}")
-    Call<Study> getStudy(@Path("id") String studyId);
+    Call<Study> getStudy(@Path("id") OrthancId studyId);
     /* Create ZIP */
     @Streaming
     @GET("studies/{id}/archive")
-    Call<ResponseBody> getStudyZipData(@Path("id") String studyId);
+    Call<ResponseBody> getStudyZipData(@Path("id") OrthancId studyId);
     /* Retrieve all the instances of this patient in a single REST call */
     @GET("studies/{id}/instances")
-    Call<List<Instance>> getStudyInstances(@Path("id") String studyId);
+    Call<List<Instance>> getStudyInstances(@Path("id") OrthancId studyId);
     /* Create a ZIP archive for media storage with DICOMDIR */
     @GET("studies/{id}/media")
-    Call<ResponseBody> getStudyMedia(@Path("id") String studyId);
+    Call<ResponseBody> getStudyMedia(@Path("id") OrthancId studyId);
     /* "?simplify" argument to simplify output */
     @GET("studies/{id}/module")
-    Call<Map<String, Header>> getStudyModule(@Path("id") String studyId);
+    Call<Map<String, Header>> getStudyModule(@Path("id") OrthancId studyId);
     /* "?simplify" argument to simplify output */
     @GET("studies/{id}/module-patient")
-    Call<Map<String, Header>> getStudyModulePatient(@Path("id") String studyId);
+    Call<Map<String, Header>> getStudyModulePatient(@Path("id") OrthancId studyId);
     /* "Retrieve the parent patient of this study */
     @GET("studies/{id}/patient")
-    Call<Patient> getStudyPatient(@Path("id") String studyId);
+    Call<Patient> getStudyPatient(@Path("id") OrthancId studyId);
     /* Retrieve all the series of this study in a single REST call */
     @GET("studies/{id}/series")
-    Call<List<Series>> getSeriesForStudy(@Path("id") String studyId);
+    Call<List<Series>> getSeriesForStudy(@Path("id") OrthancId studyId);
     /* "?simplify" argument to simplify output */
     @GET("studies/{id}/shared-tags")
-    Call<Map<String, Header>> getStudySharedTags(@Path("id") String studyId);
+    Call<Map<String, Header>> getStudySharedTags(@Path("id") OrthancId studyId);
     /* */
     @GET("study/{id}/statistics")
-    Call<StudyStatistics> getStudyStatistics(@Path("id") String studyId);
+    Call<StudyStatistics> getStudyStatistics(@Path("id") OrthancId studyId);
 
     /* INSTANCES */
     @GET("instances")
     Call<List<String>> getInstances();
     @GET("instances/{id}")
-    Call<Instance> getInstance(@Path("id") String instanceId);
+    Call<Instance> getInstance(@Path("id") OrthancId instanceId);
     @Streaming
     @GET("instances/{id}/file")
-    Call<ResponseBody> getInstanceDicomData(@Path("id") String instanceId);
+    Call<ResponseBody> getInstanceDicomData(@Path("id") OrthancId instanceId);
     /* List the first-level DICOM tags */
     @GET("instances/{id}/content")
-    Call<List<String>> getInstanceContent(@Path("id") String instanceId);
+    Call<List<String>> getInstanceContent(@Path("id") OrthancId instanceId);
     /* Raw access to the value of DICOM tags (comprising the padding character) */
     @GET("instances/{id}/content/{group}-{element}")
-    Call<List<String>> getInstanceContent(@Path("id") String instanceId,
+    Call<List<String>> getInstanceContent(@Path("id") OrthancId instanceId,
                                           @Path("group") String group,
                                           @Path("element") String element);
     /* List the frames */
     @GET("instances/{id}/frames")
-    Call<List<Integer>> getInstanceFrames(@Path("id") String instanceId);
+    Call<List<Integer>> getInstanceFrames(@Path("id") OrthancId instanceId);
     /* Truncated image to the [-32768;32767] range */
     @GET("instances/{id}/frames/{frameNumber}/image-int16")
-    Call<ResponseBody> getInstanceFrameImageInt16(@Path("id") String instanceId,
-                                                  @Path("frameNumber") String frameNumber);
+    Call<ResponseBody> getInstanceFrameImageInt16(@Path("id") OrthancId instanceId,
+                                                  @Path("frameNumber") int frameNumber);
     /* Truncated image to the [0;65535] range */
     @GET("instances/{id}/frames/{frameNumber}/image-uint16")
-    Call<ResponseBody> getInstanceFrameImageUInt16(@Path("id") String instanceId,
-                                                   @Path("frameNumber") String frameNumber);
+    Call<ResponseBody> getInstanceFrameImageUInt16(@Path("id") OrthancId instanceId,
+                                                   @Path("frameNumber") int frameNumber);
     /* Truncated image to the [0;255] range */
     @GET("instances/{id}/frames/{frameNumber}/image-uint8")
-    Call<ResponseBody> getInstanceFrameImageUInt8(@Path("id") String instanceId,
-                                                  @Path("frameNumber") String frameNumber);
+    Call<ResponseBody> getInstanceFrameImageUInt8(@Path("id") OrthancId instanceId,
+                                                  @Path("frameNumber") int frameNumber);
     /* a = eval(urlread('http://localhost:8042/instances/.../frames/0/matlab')) */
     @GET("instances/{id}/frames/{frameNumber}/matlab")
-    Call<ResponseBody> getInstanceFrameMatlab(@Path("id") String instanceId,
-                                              @Path("frameNumber") String frameNumber);
+    Call<ResponseBody> getInstanceFrameMatlab(@Path("id") OrthancId instanceId,
+                                              @Path("frameNumber") int frameNumber);
     /* Rescaled image (so that all the range [0;255] is used) */
     @GET("instances/{id}/frames/{frameNumber}/preview")
-    Call<ResponseBody> getInstanceFramePreview(@Path("id") String instanceId,
-                                               @Path("frameNumber") String frameNumber);
+    Call<ResponseBody> getInstanceFramePreview(@Path("id") OrthancId instanceId,
+                                               @Path("frameNumber") int frameNumber);
     /* Access to the raw content of one frame (bypass image decoding) */
     @GET("instances/{id}/frames/{frameNumber}/raw")
-    Call<ResponseBody> getInstanceFrameRaw(@Path("id") String instanceId,
-                                           @Path("frameNumber") String frameNumber);
+    Call<ResponseBody> getInstanceFrameRaw(@Path("id") OrthancId instanceId,
+                                           @Path("frameNumber") int frameNumber);
 
     /* Get the meta information (header) of the DICOM file, "?simplify" argument to simplify output */
     @GET("instances/{id}/header")
-    Call<Map<String, Header>> getInstanceHeader(@Path("id") String instanceId);
+    Call<Map<String, Header>> getInstanceHeader(@Path("id") OrthancId instanceId);
 
     /* Truncated image to the [-32768;32767] range */
     @GET("instances/{id}/image-int16")
-    Call<ResponseBody> getInstanceImageInt16(@Path("id") String instanceId);
+    Call<ResponseBody> getInstanceImageInt16(@Path("id") OrthancId instanceId);
     /* Truncated image to the [0;65535] range */
     @GET("instances/{id}/image-uint16")
-    Call<ResponseBody> getInstanceImageUInt16(@Path("id") String instanceId);
+    Call<ResponseBody> getInstanceImageUInt16(@Path("id") OrthancId instanceId);
     /* Truncated image to the [0;255] range */
     @GET("instances/{id}/image-uint8")
-    Call<ResponseBody> getInstanceImageUInt8(@Path("id") String instanceId);
+    Call<ResponseBody> getInstanceImageUInt8(@Path("id") OrthancId instanceId);
     /* a = eval(urlread('http://localhost:8042/instances/.../frames/0/matlab')) */
     @GET("instances/{id}/matlab")
-    Call<ResponseBody> getInstanceMatlab(@Path("id") String instanceId);
+    Call<ResponseBody> getInstanceMatlab(@Path("id") OrthancId instanceId);
     /* Rescaled image (so that all the range [0;255] is used) */
     @GET("instances/{id}/preview")
-    Call<ResponseBody> getInstancePreview(@Path("id") String instanceId);
+    Call<ResponseBody> getInstancePreview(@Path("id") OrthancId instanceId);
     /* Return the encapsulated PDF inside the DICOM file, if any */
     @GET("instances/{id}/pdf")
-    Call<ResponseBody> getInstancePDF(@Path("id") String instanceId);
+    Call<ResponseBody> getInstancePDF(@Path("id") OrthancId instanceId);
     /* */
     @GET("instances/{id}/module")
-    Call<Map<String, Header>> getInstanceModule(@Path("id") String instanceId);
+    Call<Map<String, Header>> getInstanceModule(@Path("id") OrthancId instanceId);
     /* Retrieve the parent patient of this instance */
     @GET("instances/{id}/patient")
-    Call<Patient> getInstancePatient(@Path("id") String instanceId);
+    Call<Patient> getInstancePatient(@Path("id") OrthancId instanceId);
     /* Retrieve the parent series of this instance */
     @GET("instances/{id}/series")
-    Call<Series> getInstanceSeries(@Path("id") String instanceId);
+    Call<Series> getInstanceSeries(@Path("id") OrthancId instanceId);
     /* */
     @GET("instances/{id}/simplified-tags")
-    Call<Map<String, String>> getInstanceSimplifiedTags(@Path("id") String instanceId);
+    Call<Map<String, String>> getInstanceSimplifiedTags(@Path("id") OrthancId instanceId);
     /* */
     @GET("instances/{id}/statistics")
-    Call<Statistics> getInstanceStatistics(@Path("id") String instanceId);
+    Call<Statistics> getInstanceStatistics(@Path("id") OrthancId instanceId);
     /* Retrieve the parent study of this instance */
     @GET("instances/{id}/study")
-    Call<Study> getInstanceStudy(@Path("id") String instanceId);
+    Call<Study> getInstanceStudy(@Path("id") OrthancId instanceId);
     /* "?simplify" argument to simplify output (same as "simplified-tags") */
     @GET("instances/{id}/tags")
-    Call<Map<String, Header>> getInstanceTags(@Path("id") String instanceId);
+    Call<Map<String, Header>> getInstanceTags(@Path("id") OrthancId instanceId);
 
     /* QUERIES */
     @GET("queries")
@@ -248,5 +249,5 @@ public interface OrthancService {
     /* not implemented */
     /* Protection against recycling: "0" means unprotected, "1" protected */
 //    @GET("patients/{id}/protected")
-//    Call<Integer> getPatientProtected(@Path("id") String patientId);
+//    Call<Integer> getPatientProtected(@Path("id") OrthancId patientId);
 }

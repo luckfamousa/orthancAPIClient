@@ -15,7 +15,7 @@ import static java.net.HttpURLConnection.HTTP_OK;
  */
 class MockClient {
 
-    private RestClient client;
+    private final RestClient client;
 
     MockClient(String fileName) throws IOException {
         client = getRestClient(fileName);

@@ -9,7 +9,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import hr.fer.zari.models.DcmTag;
-import hr.fer.zari.models.OrthancId;
+import hr.fer.zari.models.id.OrthancId;
 import java.util.Base64;
 import hr.fer.zari.services.*;
 import okhttp3.Interceptor;

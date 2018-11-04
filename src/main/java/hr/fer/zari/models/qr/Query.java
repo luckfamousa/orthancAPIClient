@@ -1,6 +1,6 @@
 package hr.fer.zari.models.qr;
 
-import hr.fer.zari.models.OrthancId;
+import hr.fer.zari.models.id.OrthancId;
 
 public class Query {
   

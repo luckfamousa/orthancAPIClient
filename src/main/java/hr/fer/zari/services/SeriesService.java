@@ -3,6 +3,7 @@ package hr.fer.zari.services;
 import hr.fer.zari.OrthancException;
 import hr.fer.zari.OrthancService;
 import hr.fer.zari.models.Header;
+import hr.fer.zari.models.id.*;
 import hr.fer.zari.models.Patient;
 import hr.fer.zari.models.Series;
 import hr.fer.zari.models.Statistics.SeriesStatistics;
@@ -22,7 +23,7 @@ public class SeriesService extends BaseService {
         super(service);
     }
 
-    public List<Series> getSeriesForStudy(String studyId) throws IOException, OrthancException {
+    public List<Series> getSeriesForStudy(StudyId studyId) throws IOException, OrthancException {
         Call<List<Series>> call = service.getSeriesForStudy(studyId);
         return checkResponse(call);
     }
@@ -32,37 +33,37 @@ public class SeriesService extends BaseService {
         return checkResponse(call);
     }
 
-    public Series getSeries(String seriesId) throws IOException, OrthancException {
+    public Series getSeries(SeriesId seriesId) throws IOException, OrthancException {
         Call<Series> call = service.getSeries(seriesId);
         return checkResponse(call);
     }
 
-    public List<Series> getSeriesForPatient(String patientId) throws IOException, OrthancException {
+    public List<Series> getSeriesForPatient(PatientId patientId) throws IOException, OrthancException {
         Call<List<Series>> call = service.getPatientSeries(patientId);
         return checkResponse(call);
     }
 
-    public Map<String, Header> getSeriesModule(String seriesId) throws IOException, OrthancException {
+    public Map<String, Header> getSeriesModule(SeriesId seriesId) throws IOException, OrthancException {
         Call<Map<String, Header>> call = service.getSeriesModule(seriesId);
         return checkResponse(call);
     }
 
-    public Patient getSeriesPatient(String seriesId) throws IOException, OrthancException {
+    public Patient getSeriesPatient(SeriesId seriesId) throws IOException, OrthancException {
         Call<Patient> call = service.getSeriesPatient(seriesId);
         return checkResponse(call);
     }
 
-    public Map<String, Header> getSeriesSharedTags(String seriesId) throws IOException, OrthancException {
+    public Map<String, Header> getSeriesSharedTags(SeriesId seriesId) throws IOException, OrthancException {
         Call<Map<String, Header>> call = service.getSeriesSharedTags(seriesId);
         return checkResponse(call);
     }
 
-    public SeriesStatistics getSeriesStatistics(String seriesId) throws IOException, OrthancException {
+    public SeriesStatistics getSeriesStatistics(SeriesId seriesId) throws IOException, OrthancException {
         Call<SeriesStatistics> call = service.getSeriesStatistics(seriesId);
         return checkResponse(call);
     }
 
-    public void downloadSeriesArchive(String seriesId, String filePath) throws IOException, OrthancException {
+    public void downloadSeriesArchive(SeriesId seriesId, String filePath) throws IOException, OrthancException {
         Call<ResponseBody> call = service.getSeriesZipData(seriesId);
         ResponseBody response = checkResponse(call);
         writeResponseBodyToDisk(response, filePath);
