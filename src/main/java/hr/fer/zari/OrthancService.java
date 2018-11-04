@@ -4,6 +4,7 @@ import hr.fer.zari.models.id.*;
 import hr.fer.zari.models.*;
 import hr.fer.zari.models.Header;
 import hr.fer.zari.models.Statistics.*;
+import hr.fer.zari.models.tools.Lookup;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
@@ -226,7 +227,7 @@ public interface OrthancService {
     @GET("/queries/{id}/answers/{index}/content?simplify")
     Call<Map<String, String>> getQuerySimplifiedAnswer(@Path("id") QueryId queryId, @Path("index") int index);
     
-    @Headers("application/x-www-form-urlencoded; charset=UTF-8")
+    @Headers("Content-Type: application/x-www-form-urlencoded; charset=UTF-8")
     @POST("/queries/{id}/answers/{index}/retrieve")
     Call<Object> retrieveAnswer(@Path("id") QueryId queryId, @Path("index") int index, @Body RequestBody aet);
     
@@ -244,9 +245,11 @@ public interface OrthancService {
     @POST("modalities/{dicom}/move")
     Call<Object> moveModality(@Path("dicom") String modality, @Body RequestBody cmove);
     
+    /* TOOLS */
+    @Headers("Content-Type: application/x-www-form-urlencoded; charset=UTF-8")
+    @POST("/tools/lookup")
+    Call<List<Lookup>> toolsLookup(@Body RequestBody id);
     
-    /* not implemented */
-    /* Protection against recycling: "0" means unprotected, "1" protected */
-//    @GET("patients/{id}/protected")
-//    Call<Integer> getPatientProtected(@Path("id") PatientId patientId);
+    
+    
 }

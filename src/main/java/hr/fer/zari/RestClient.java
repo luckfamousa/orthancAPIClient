@@ -36,6 +36,8 @@ public class RestClient {
     private InstanceService instanceService;
     private ModalityService modalityService;
     private QueryService queryService;
+    private ToolsService toolsService;
+    
     
     public RestClient(String apiUrl, String username, String password, boolean enableLogging) {
       this(apiUrl, username, password, enableLogging, true);
@@ -73,6 +75,12 @@ public class RestClient {
       // case-sensitive comparisons        
       Gson gson = new GsonBuilder()
         
+        // hr.fer.zari.models.id.OrthancId      
+        .registerTypeAdapter(OrthancId.class, (JsonSerializer<OrthancId>) (OrthancId t, Type type, JsonSerializationContext jsc) 
+          -> t==null ? null : new JsonPrimitive(t.toString()))
+        .registerTypeAdapter(OrthancId.class, (JsonDeserializer<OrthancId>) (JsonElement json, Type typeOfT, JsonDeserializationContext context) 
+          -> new OrthancId(json.getAsJsonPrimitive().getAsString()))      
+              
         // hr.fer.zari.models.id.PatientId      
         .registerTypeAdapter(PatientId.class, (JsonSerializer<PatientId>) (PatientId t, Type type, JsonSerializationContext jsc) 
           -> t==null ? null : new JsonPrimitive(t.toString()))
@@ -116,19 +124,14 @@ public class RestClient {
     private Interceptor createInterceptor(String username, String password) {
         final String credentials = username + ":" + password;
         final String basic = "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes());
-        return new Interceptor() {
-            @Override
-            public Response intercept(Interceptor.Chain chain) throws IOException {
-                Request original = chain.request();
-
-                Request.Builder requestBuilder = original.newBuilder()
-                        .header("Authorization", basic)
-                        .header("Accept", "application/json")
-                        .method(original.method(), original.body());
-
-                Request request = requestBuilder.build();
-                return chain.proceed(request);
-            }
+        return (Interceptor.Chain chain) -> {
+          Request original = chain.request();          
+          Request.Builder requestBuilder = original.newBuilder()
+                  .header("Authorization", basic)
+                  .header("Accept", "application/json")
+                  .method(original.method(), original.body());          
+          Request request = requestBuilder.build();
+          return chain.proceed(request);
         };
     }
 
@@ -140,6 +143,7 @@ public class RestClient {
         instanceService = new InstanceService(service);
         modalityService = new ModalityService(service);
         queryService = new QueryService(service);
+        toolsService = new ToolsService(service);
     }
 
     public SystemService getSystemService() {
@@ -168,5 +172,9 @@ public class RestClient {
     
     public QueryService getQueryService() {
         return queryService;
+    }
+    
+    public ToolsService getToolsService() {
+        return toolsService;
     }
 }

@@ -16,7 +16,7 @@ public class OrthancId {
   private final transient String uuid;
 
   public OrthancId(String s) {
-    uuid = s.toUpperCase();
+    uuid = s.toLowerCase();
   }
   
   @Override
