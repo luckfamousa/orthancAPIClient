@@ -27,8 +27,8 @@ public class QueryService extends BaseService {
     super(service);
   }
   
-  public List<OrthancId> getQueries() throws IOException, OrthancException {
-    Call<List<OrthancId>> call = service.getQueries();
+  public List<QueryId> getQueries() throws IOException, OrthancException {
+    Call<List<QueryId>> call = service.getQueries();
     return checkResponse(call);
   }
   

@@ -19,7 +19,7 @@ public class InstanceService extends BaseService {
         super(service);
     }
 
-    public List<Instance> getInstacesForSeries(OrthancId seriesId) throws IOException, OrthancException {
+    public List<Instance> getInstacesForSeries(SeriesId seriesId) throws IOException, OrthancException {
         Call<List<Instance>> call = service.getInstancesForSeries(seriesId);
         return checkResponse(call);
     }

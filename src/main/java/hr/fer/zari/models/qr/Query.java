@@ -1,13 +1,13 @@
 package hr.fer.zari.models.qr;
 
-import hr.fer.zari.models.id.OrthancId;
+import hr.fer.zari.models.id.QueryId;
 
 public class Query {
   
-  private OrthancId ID;
+  private QueryId ID;
   private String Path;
 
-  public OrthancId getID() {
+  public QueryId getID() {
     return ID;
   }
 

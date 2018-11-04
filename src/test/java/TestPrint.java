@@ -120,7 +120,7 @@ public class TestPrint {
         }
     }
 
-    private static void printListOfInstancesForSeries(OrthancId seriesId) {
+    private static void printListOfInstancesForSeries(SeriesId seriesId) {
         try {
             List<Instance> instances = client.getInstanceService().getInstacesForSeries(seriesId);
             for (Instance instance : instances) {

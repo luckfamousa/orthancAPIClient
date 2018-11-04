@@ -9,7 +9,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import hr.fer.zari.models.DcmTag;
-import hr.fer.zari.models.id.OrthancId;
+import hr.fer.zari.models.id.*;
 import java.util.Base64;
 import hr.fer.zari.services.*;
 import okhttp3.Interceptor;
@@ -22,7 +22,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.UUID;
 import javax.net.ssl.SSLSession;
 
 /**
@@ -59,24 +58,9 @@ public class RestClient {
             httpClient.addInterceptor(createInterceptor(username, password));
         }
 
-        // serialize UUIDs to upper-case Strings because Orthanc seems to make
-        // case-sensitive comparisons        
-        Gson gson = new GsonBuilder()
-          // hr.fer.zari.models.OrthancId      
-          .registerTypeAdapter(OrthancId.class, (JsonSerializer<OrthancId>) (OrthancId t, Type type, JsonSerializationContext jsc) 
-            -> t==null ? null : new JsonPrimitive(t.toString()))
-          .registerTypeAdapter(OrthancId.class, (JsonDeserializer<OrthancId>) (JsonElement json, Type typeOfT, JsonDeserializationContext context) 
-            -> new OrthancId(json.getAsJsonPrimitive().getAsString()))
-          // hr.fer.zari.models.DcmTag
-          .registerTypeAdapter(DcmTag.class, (JsonSerializer<DcmTag>) (DcmTag t, Type type, JsonSerializationContext jsc) 
-            -> t==null ? null : new JsonPrimitive(t.toString()))
-          .registerTypeAdapter(DcmTag.class, (JsonDeserializer<DcmTag>) (JsonElement json, Type typeOfT, JsonDeserializationContext context) 
-            -> new DcmTag(json.getAsJsonPrimitive().getAsString()))
-          .create();
-        
         OkHttpClient client = httpClient.build();
         Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(createGsonConverterFactory())
                 .baseUrl(apiUrl)
                 .client(client)
                 .build();
@@ -84,6 +68,51 @@ public class RestClient {
         createServices(service);
     }
 
+    private static GsonConverterFactory createGsonConverterFactory() {
+      // serialize UUIDs to upper-case Strings because Orthanc seems to make
+      // case-sensitive comparisons        
+      Gson gson = new GsonBuilder()
+        
+        // hr.fer.zari.models.id.PatientId      
+        .registerTypeAdapter(PatientId.class, (JsonSerializer<PatientId>) (PatientId t, Type type, JsonSerializationContext jsc) 
+          -> t==null ? null : new JsonPrimitive(t.toString()))
+        .registerTypeAdapter(PatientId.class, (JsonDeserializer<PatientId>) (JsonElement json, Type typeOfT, JsonDeserializationContext context) 
+          -> new PatientId(json.getAsJsonPrimitive().getAsString())) 
+              
+        // hr.fer.zari.models.id.StudyId      
+        .registerTypeAdapter(StudyId.class, (JsonSerializer<StudyId>) (StudyId t, Type type, JsonSerializationContext jsc) 
+          -> t==null ? null : new JsonPrimitive(t.toString()))
+        .registerTypeAdapter(StudyId.class, (JsonDeserializer<StudyId>) (JsonElement json, Type typeOfT, JsonDeserializationContext context) 
+          -> new StudyId(json.getAsJsonPrimitive().getAsString()))       
+              
+        // hr.fer.zari.models.id.SeriesId      
+        .registerTypeAdapter(SeriesId.class, (JsonSerializer<SeriesId>) (SeriesId t, Type type, JsonSerializationContext jsc) 
+          -> t==null ? null : new JsonPrimitive(t.toString()))
+        .registerTypeAdapter(SeriesId.class, (JsonDeserializer<SeriesId>) (JsonElement json, Type typeOfT, JsonDeserializationContext context) 
+          -> new SeriesId(json.getAsJsonPrimitive().getAsString()))      
+              
+        // hr.fer.zari.models.id.InstanceId      
+        .registerTypeAdapter(InstanceId.class, (JsonSerializer<InstanceId>) (InstanceId t, Type type, JsonSerializationContext jsc) 
+          -> t==null ? null : new JsonPrimitive(t.toString()))
+        .registerTypeAdapter(InstanceId.class, (JsonDeserializer<InstanceId>) (JsonElement json, Type typeOfT, JsonDeserializationContext context) 
+          -> new InstanceId(json.getAsJsonPrimitive().getAsString())) 
+              
+        // hr.fer.zari.models.id.QueryId      
+        .registerTypeAdapter(QueryId.class, (JsonSerializer<QueryId>) (QueryId t, Type type, JsonSerializationContext jsc) 
+          -> t==null ? null : new JsonPrimitive(t.toString()))
+        .registerTypeAdapter(QueryId.class, (JsonDeserializer<QueryId>) (JsonElement json, Type typeOfT, JsonDeserializationContext context) 
+          -> new QueryId(json.getAsJsonPrimitive().getAsString()))       
+              
+        // hr.fer.zari.models.DcmTag
+        .registerTypeAdapter(DcmTag.class, (JsonSerializer<DcmTag>) (DcmTag t, Type type, JsonSerializationContext jsc) 
+          -> t==null ? null : new JsonPrimitive(t.toString()))
+        .registerTypeAdapter(DcmTag.class, (JsonDeserializer<DcmTag>) (JsonElement json, Type typeOfT, JsonDeserializationContext context) 
+          -> new DcmTag(json.getAsJsonPrimitive().getAsString()))
+        .create();
+      
+      return GsonConverterFactory.create(gson);
+    }
+    
     private Interceptor createInterceptor(String username, String password) {
         final String credentials = username + ":" + password;
         final String basic = "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes());

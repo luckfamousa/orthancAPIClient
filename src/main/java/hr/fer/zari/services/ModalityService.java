@@ -30,8 +30,8 @@ public class ModalityService extends BaseService {
     return checkResponse(call);
   }
   
-  public Query moveModality(String modality, CMove cmove) throws IOException, OrthancException {
-    Call<Query> call = service.moveModality(modality, RequestBody.create(MediaType.parse("application/json"), cmove.toString()));
+  public Object moveModality(String modality, CMove cmove) throws IOException, OrthancException {
+    Call<Object> call = service.moveModality(modality, RequestBody.create(MediaType.parse("application/json"), cmove.toString()));
     return checkResponse(call);
   }
 }
